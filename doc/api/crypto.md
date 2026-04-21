@@ -1172,7 +1172,7 @@ changes:
 * `options` {Object} [`stream.transform` options][]
   * `plaintextLength` {number}
   * `encoding` {string} String encoding to use when `buffer` is a string.
-* Returns: {Decipheriv} The same Decipher for method chaining.
+* Returns: {Decipheriv} The same `Decipheriv` instance for method chaining.
 
 When using an authenticated encryption mode (`GCM`, `CCM`, `OCB`, and
 `chacha20-poly1305` are
@@ -1219,7 +1219,7 @@ changes:
 
 * `buffer` {string|Buffer|ArrayBuffer|TypedArray|DataView}
 * `encoding` {string} String encoding to use when `buffer` is a string.
-* Returns: {Decipheriv} The same Decipher for method chaining.
+* Returns: {Decipheriv} The same `Decipheriv` instance for method chaining.
 
 When using an authenticated encryption mode (`GCM`, `CCM`, `OCB`, and
 `chacha20-poly1305` are
@@ -1245,7 +1245,7 @@ added: v0.7.1
 -->
 
 * `autoPadding` {boolean} **Default:** `true`
-* Returns: {Decipheriv} The same Decipher for method chaining.
+* Returns: {Decipheriv} The same `Decipheriv` instance for method chaining.
 
 When data has been encrypted without standard block padding, calling
 `decipher.setAutoPadding(false)` will disable automatic padding to prevent
@@ -1389,8 +1389,10 @@ If `encoding` is provided a string is returned; otherwise a
 [`Buffer`][] is returned.
 
 This function is a thin wrapper around [`DH_generate_key()`][]. In particular,
-once a private key has been generated or set, calling this function only updates
-the public key but does not generate a new private key.
+once a private key has been generated or set, calling this function only
+recomputes the public key from the existing private key. Since the public key is
+determined by the private key, the result will be the same unless the private key
+has been changed via [`diffieHellman.setPrivateKey()`][].
 
 ### `diffieHellman.getGenerator([encoding])`
 
@@ -5333,7 +5335,7 @@ changes:
 
 <!--lint enable maximum-line-length remark-lint-->
 
-Decrypts `buffer` with `key`.`buffer` was previously encrypted using
+Decrypts `buffer` with `key`. `buffer` was previously encrypted using
 the corresponding private key, for example using [`crypto.privateEncrypt()`][].
 
 If `key` is not a [`KeyObject`][], this function behaves as if
@@ -6936,6 +6938,7 @@ See the [list of SSL OP Flags][] for details.
 [`decipher.final()`]: #decipherfinaloutputencoding
 [`decipher.update()`]: #decipherupdatedata-inputencoding-outputencoding
 [`diffieHellman.generateKeys()`]: #diffiehellmangeneratekeysencoding
+[`diffieHellman.setPrivateKey()`]: #diffiehellmansetprivatekeyprivatekey-encoding
 [`diffieHellman.setPublicKey()`]: #diffiehellmansetpublickeypublickey-encoding
 [`ecdh.generateKeys()`]: #ecdhgeneratekeysencoding-format
 [`ecdh.setPrivateKey()`]: #ecdhsetprivatekeyprivatekey-encoding
